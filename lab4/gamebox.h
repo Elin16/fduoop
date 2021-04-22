@@ -1,6 +1,10 @@
 #ifndef GAME_H_
 #define GAME_H_
 #include "player.h"
+#include <iostream>
+#include<cstdio>
+#include<cstdlib>
+#include<ctime>
 typedef enum {
  	victory,fail,play
 }statement; 
@@ -20,9 +24,6 @@ public:
        void initial(int edgeSize,int winNum);
        bool onlyDir(int *dir);
        bool tryMove(const int&dir);
-       //for testing
-       void set_table();
-       void printTable();
 private:
        int WIDTH;
        int LENGTH;
@@ -39,7 +40,7 @@ private:
        int nextValue(const int& pos,const int& dir,int*table);
        bool moveDir(const int& dir,int *sor,int*table);
        void drawTheLine();
-       //void printTable();
+       void printTable();
        void tryColliationDir(const int& dir,bool *f,int*table);
 
 };

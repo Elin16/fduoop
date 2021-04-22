@@ -1,9 +1,6 @@
 #include "player.h"
-#include<iostream>
-#include<cstring>
-const int BUFSIZE=50;
 using namespace std;
-char player::cheatWords[]="";
+string player::cheatWords="";
 void player::turn(){
        cout<<"This is "<<name<<"'s turn:";
 }
@@ -16,6 +13,7 @@ bool player::myMove(int *dir){
        if(com=="c"){
               cin>>cheatWords;
               *dir=-1;
+              cout<<"cheat sentence is "<<cheatWords<<endl;
               return 0;
        }
        Dir_iterator it;

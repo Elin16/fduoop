@@ -1,16 +1,7 @@
 #include "gamebox.h"
-#include <iostream>
-#include<cstdio>
-#include<cstdlib>
-#include<ctime>
 #define debug(x) cout<<#x"="<<x<<endl;
 using namespace std; 
-void GameBox::set_table(){
-	table[0]=2;
-	table[1]=4;
-	table[2]=0;
-	table[3]=0;	
-}
+
 GameBox:: GameBox(){ //winning =2048 default why can not be working ?
        totalFulled=0;
 	infintGame=0;
@@ -46,6 +37,7 @@ void GameBox:: addNumber(){
  
 
 statement GameBox::checkState(){
+	//numOfWinning 的test模式有时会“失效”，变成2048
 	if(!infintGame){
 		for(int i=0;i<TOTAL;++i) if(table[i]==numOfWinning) return victory;
 	} 
@@ -133,7 +125,6 @@ int GameBox::nextPos(const int& pos,const int& dir,int*table){
 			break;
 	}
 	return np;
-	 
 }
 int GameBox:: colliationDir(const int& dir,bool *f,int*table){
 	int sor=0,i,fdir;
@@ -160,13 +151,11 @@ void GameBox:: tryColliationDir(const int& dir,bool *f,int*table){
 		if(table[i]){
 			int p=nextPos(i,dir,table);
 			if(p>=0&&table[i]==table[p]){
-				*f=1;
-				return ;
+				*f=1;return ;
 			}
 		}
 		i+=fdir;
 	}
-	return ;
 }
 
 bool GameBox:: moveDir(const int& dir,int *sor,int*table){
@@ -237,7 +226,7 @@ void GameBox:: endOfGame(const player &p1,const player &p2){
 bool GameBox::vicOfGame(const player& p1){
 	puts("~~~~~Congratulations!You get a Victory~~~~~");	
 	infintGame=player::continuePlay();
-	if(infintGame){ //youwenti
+	if(infintGame){ //a bug ?
 		puts("Game continue!");
 		printTable();
 		return 1;
@@ -250,8 +239,7 @@ bool GameBox::vicOfGame(const player& p1){
 bool GameBox::playing(const player &p1){
 	switch (checkState()){
 		case victory:
-                     return vicOfGame(p1);
-                     // single player can choose infinity game in this step;and this will change the stopping
+                     return vicOfGame(p1);// single player can choose infinity game in this step;and this will change the stopping
 		case fail:
                      endOfGame();
               	return 0;

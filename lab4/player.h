@@ -34,7 +34,7 @@ public:
        player();
        ~player();
        player(char* playerName);
-       static char cheatWords[1024];
+       static string cheatWords;
        friend class GameBox;
        Direction_int_string Direction_map;
 };

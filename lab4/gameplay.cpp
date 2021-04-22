@@ -2,7 +2,7 @@
 #define debug(x) cout<<#x"="<<x<<endl;
 gameplay::gameplay(){
        playerNum=1;
-       winNum=WIN_NUM;
+       winNum=WIN_NUM;//2048
        edgeSize=4;
        cheatBuff=nocheat;
        Direction_map.insert(Pair_int_string (1,LEFT));
@@ -16,11 +16,10 @@ gameplay:: ~gameplay(){
 inline void gameplay::winNumModel(int argc,char*args[]){
        for(int i=0;i<argc;++i){
               if(strcmp(args[i],TEST_MODLE)==0){
-                     G.winNum(TEST_WIN_NUM);
-                     break;
+                     winNum=TEST_WIN_NUM;break;//64
               }
               if(strcmp(args[i],TEST_MODLE_8)==0){
-                     G.winNum(8);
+                     winNum=8;break;
               }
        }
 }
@@ -48,11 +47,9 @@ inline void gameplay::playerModel(){
        while(1){
               cin>>com;
               if(com==SINGLE){
-                     playerNum=1;
-                     break;
+                     playerNum=1;return ;
               }else if(com==DOUBLE){
-                     playerNum=2;
-                     break;
+                     playerNum=2;return ;
               }else{
                      puts("error input");
                      printf("please choose again:");
@@ -112,7 +109,6 @@ inline void gameplay::doubleplayer(){
 
 inline void gameplay::singleplayer(){
        player Jack;
-       Jack.setName();
        G.firHit();//初始局面
        while(G.playing(Jack)){//  哪一种实现方式比较好？传不传Jack？
               commend(&Jack);

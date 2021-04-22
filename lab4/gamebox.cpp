@@ -3,19 +3,17 @@
 using namespace std; 
 
 GameBox:: GameBox(){ //winning =2048 default why can not be working ?
-       totalFulled=0;
-	infintGame=0;
-       numOfWinning=2048;//?????
-       srand((unsigned)time(NULL));
 }
 GameBox::~GameBox(){
- 
 }
 void GameBox::initial(int edgeSize,int winNum){ //winning =2048 default why can not be working ?
-      numOfWinning=winNum;
+	totalFulled=0;
+	infintGame=0;
+	srand((unsigned)time(NULL));
+	numOfWinning=winNum;
 	WIDTH=LENGTH=edgeSize;
 	TOTAL=WIDTH*LENGTH;
-      for(int i=0;i<TOTAL;++i) table[i]=0;
+	for(int i=0;i<TOTAL;++i) table[i]=0;
 }
 void GameBox:: winNum(const int& num){
 	numOfWinning=num;
@@ -28,16 +26,14 @@ void GameBox::firHit(){
 }
 
 void GameBox:: addNumber(){
-      int t=rand()%TOTAL;
-      while(table[t]) t=rand()%TOTAL;
+	int t=rand()%TOTAL;
+	while(table[t]) t=rand()%TOTAL;
 	table[t]=2;
-      totalFulled++;
-      return ;
+	totalFulled++;
+	return ;
 }
  
-
 statement GameBox::checkState(){
-	//numOfWinning 的test模式有时会“失效”，变成2048
 	if(!infintGame){
 		for(int i=0;i<TOTAL;++i) if(table[i]==numOfWinning) return victory;
 	} 
@@ -242,7 +238,7 @@ bool GameBox::playing(const player &p1){
                      return vicOfGame(p1);// single player can choose infinity game in this step;and this will change the stopping
 		case fail:
                      endOfGame();
-              	return 0;
+              	     return 0;
 	       default:return 1;
 	}
 }

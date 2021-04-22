@@ -1,5 +1,4 @@
 #include "player.h"
-using namespace std;
 string player::cheatWords="";
 void player::turn(){
        cout<<"This is "<<name<<"'s turn:";

@@ -39,9 +39,6 @@ void GameBox::firHit(){
 void GameBox:: addNumber(){
       int t=rand()%TOTAL;
       while(table[t]) t=rand()%TOTAL;
-	//bool s=rand()%2;
-      // if(s)table[t]=2;
-	// else table[t]=4;
 	table[t]=2;
       totalFulled++;
       return ;
@@ -204,11 +201,8 @@ bool GameBox::onlyDir(int *dir){
 }
 bool GameBox:: oneMove(const int& dir,int *sor){
 	bool f=moveDir(dir,sor,table);
-	if(f){
-		addNumber();
-	}else{
-		puts("Uesless operation");
-	}
+	if(f)addNumber();
+	else puts("Uesless operation");
 	printTable();
 	return f;
 }
@@ -228,8 +222,6 @@ void GameBox:: endOfGame(const player &p1,const player &p2){
 	puts("___________		Game Over!		___________");
 	switch(checkState()){
         	case victory :
-	 		//if(p1>p2) printf("%s wins!",p1.name);else
-			//if(p1<p2) printf("%s wins!",p2.name);else
         	case fail:
 		  	if(p1.sores>p2.sores) printf("%s wins!",p1.name);
 			else
@@ -237,7 +229,7 @@ void GameBox:: endOfGame(const player &p1,const player &p2){
 			else
 			puts("-----This is an even game.-----");
 	 		break;
-       	default:break;
+       		default:break;
     	}	
 }
 
@@ -266,31 +258,3 @@ bool GameBox::playing(const player &p1){
 	       default:return 1;
 	}
 }
-
-/*int sor=0;
-	if(dir==1||dir==2){
-		for(int i=0;i<TOTAL;++i)
-		if(table[i]){
-			int p=nextPos(i,dir,table);
-			if(p>=0&&table[i]==table[p]){
-				table[i]=table[i]<<1;
-				sor+=table[i];
-				table[p]=0;
-				totalFulled--;
-				*f=1;
-			}
-		}
-	}else{
-		for(int i=TOTAL-1;i>=0;--i)
-		if(table[i]){
-			int p=nextPos(i,dir,table);
-			if(p>=0&&table[i]==table[p]){
-				table[i]=table[i]<<1;
-				sor+=table[i];
-				table[p]=0;
-				totalFulled--;
-				*f=1;
-			}
-		}
-	}
-	return sor;*/

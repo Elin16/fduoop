@@ -1,26 +1,14 @@
 #include "gameplay.h"
-#include "gamebox.h"
-#include "player.h"
-#include<bitset>
-const char TEST_MODLE[]="-t";
-const char TEST_MODLE_8[]="-ttt";
-const char TABLE_MODLE[]="-s";
-const int  TEST_WIN_NUM=64;
-const int  WIN_NUM=2048;
-const char SINGLE[]= "s";
-const char DOUBLE[]= "d";
-const int BUFSIZE=50;
-#define DOWN  "z"
-#define UP "w"
-#define LEFT "a"
-#define RIGHT "s"
-#define YES "y"
 #define debug(x) cout<<#x"="<<x<<endl;
 gameplay::gameplay(){
        playerNum=1;
        winNum=WIN_NUM;
        edgeSize=4;
        cheatBuff=nocheat;
+       Direction_map.insert(Pair_int_string (1,LEFT));
+       Direction_map.insert(Pair_int_string (2,UP));
+       Direction_map.insert(Pair_int_string (3,RIGHT));
+       Direction_map.insert(Pair_int_string (4,DOWN));
 }
 gameplay:: ~gameplay(){
 
@@ -56,20 +44,16 @@ inline void gameplay::playerModel(){
        puts("Single player: enter s ");
        puts("Double player: enter d ");
        printf("Make your choice:");
-       char com[BUFSIZE];
+       string com;
        while(1){
-              fgets(com,BUFSIZE,stdin);
-              com[strlen(com)-1]='\0';
-              if(strcmp(com,SINGLE)==0){
+              cin>>com;
+              if(com==SINGLE){
                      playerNum=1;
                      break;
-              }
-              else 
-              if(strcmp(com,DOUBLE)==0){
+              }else if(com==DOUBLE){
                      playerNum=2;
                      break;
-              }
-              else{
+              }else{
                      puts("error input");
                      printf("please choose again:");
               }
@@ -151,23 +135,8 @@ bool gameplay::operMove(player *Jack){
 }
 
 bool gameplay::playCheat(const int &dir){
-       printf("%s 同意请按",player::cheatWords);
-       switch (dir){
-       case 1:
-              puts(LEFT);
-              break;
-       case 2:
-              puts(UP);
-              break;
-       case 3:
-              puts(RIGHT);
-              break;
-       case 4:
-              puts(DOWN);
-              break; 
-       default:
-              break;
-       }
+       Dir_iterator it=Direction_map.find(dir);
+       cout<<player::cheatWords<< "同意请按"<<it->second<<endl;
        return 1;//返回值暂无意义
 }
 

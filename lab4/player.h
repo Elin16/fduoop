@@ -8,14 +8,17 @@
 #define NO "n"
 #include<iostream>
 #include<cstring>
+#include<map>
 using namespace std;
+typedef std::map<int,string> Direction_int_string;
+typedef std::pair<int,string> Pair_int_string;
+typedef  Direction_int_string ::iterator Dir_iterator;
 class player
 {
 private:
        char *name;
        int sores;
-       char com[50];
-       void myNameIs(char *playerName);
+       string com;
        void cheers();
        static bool continuePlay();
        
@@ -33,5 +36,6 @@ public:
        player(char* playerName);
        static char cheatWords[1024];
        friend class GameBox;
+       Direction_int_string Direction_map;
 };
 #endif

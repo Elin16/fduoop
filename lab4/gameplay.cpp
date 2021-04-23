@@ -25,11 +25,9 @@ inline void gameplay::winNumModel(int argc,char*args[]){
 }
 inline bool gameplay::tableSize(int argc,char *args[]){
        for(int i=0;i<argc;++i){
-              if(strcmp(args[i],TABLE_MODLE)==0){
-                     if(i+1<argc){
-                            edgeSize=atoi(args[i+1]);
-                            if(1<edgeSize&&edgeSize<6) return 1;
-                     }else return 0;
+              if(strcmp(args[i],TABLE_MODLE)==0&&i+1<argc){
+                     edgeSize=atoi(args[i+1]);
+                     if(1<edgeSize&&edgeSize<6) return 1;
               }
        }
        return 0;
@@ -71,14 +69,12 @@ bool gameplay::setTableSize(){
        }else return 0;
 }
 
-
 int main(int argc,char *args[]){
        gameplay contr;
        contr.welcome("2048");
        contr.winNumModel(argc,args);
        if(!contr.tableSize(argc,args)){// 一定需要用户设定吗
-              while(!contr.setTableSize()){
-              }     
+              while(!contr.setTableSize()){}     
        }
        contr.playerModel();
        contr.playGame();
@@ -88,41 +84,33 @@ int main(int argc,char *args[]){
 inline void gameplay::doubleplayer(){
        player Jack,Mark;//Jack.setName();Mark.setName();
        player *oper[2]={&Jack,&Mark};// shuzu
-       bool playing=1,round=0;
+       bool round=0;
        G.firHit();//初始局面
-       while(playing){
+       while(playing()){
               round=!round;
-              if(Jack.cheatingOther) Mark.getBeingCheated();
-              if(Mark.cheatingOther) Jack.getBeingCheated();
+              if(oper[round]->cheatingOther)oper[!round]->getBeingCheated();
               oper[round]->turn();
               if(commend(oper[round])==0){
                      round=!round;
                      continue;
               }  
-              switch (G.checkState()){
-		       case victory: 
-		       case fail:G.endOfGame(*oper[0],*oper[1]);playing=0;break;
-	              default:break;
-	       }
        }
+       endOfGame(*oper[0],*oper[1]);
 }
 
 inline void gameplay::singleplayer(){
        player Jack;
        G.firHit();//初始局面
-       while(G.playing(Jack)){//  哪一种实现方式比较好？传不传Jack？
-              commend(&Jack);
-       }
+       while(playing()) commend(&Jack);
+       endOfGame();
 }
 
 bool gameplay::operMove(player *Jack){
        int sore=0,dir=0;bool f=0;
        f=Jack->myMove(&dir);              //获得player的方向命令，
        if(f){                             //有方向命令
-              f=G.oneMove(dir,&sore);     //按照dir方向移动，获得sore分;若可移动，f为true；方向命令有效
-                                          //无效要不要打印分数？？？
-              Jack->addSore(sore);        //player加分
-              Jack->printSores();//是否应该封装？？
+              f=G.oneMove(dir,&sore);     //按照dir方向移动，获得sore分;若可移动，f为true；方向命令有效//无效要不要打印分数？？？
+              Jack->addSore(sore)->printSores();        //player加分
        }else
        if(dir==-1){//f=0；// dir=-1，cheat命令
               Jack->cheatingOther=setCheat();   //true:成功设置
@@ -130,10 +118,9 @@ bool gameplay::operMove(player *Jack){
        return f;//执行了一次有效的移动命令
 }
 
-bool gameplay::playCheat(const int &dir){
+void gameplay::playCheat(const int &dir){
        Dir_iterator it=Direction_map.find(dir);
        cout<<player::cheatWords<< "同意请按"<<it->second<<endl;
-       return 1;//返回值暂无意义
 }
 
 inline bool gameplay::commend(player *Jack){
@@ -152,19 +139,49 @@ inline bool gameplay::commend(player *Jack){
 bool gameplay::setCheat(){
        switch (cheatBuff){
        case nocheat:
-              if(playerNum==1){//单人玩家无cheat
-                     puts("no cheat commend");
-                     break;
-              }
-              cheatBuff=cheating;//cheat 命令启动//Jack->cheatingOther=1;
-              puts("Cheat commend is working now~");
-              return 1;
-              break;
-       default:
-              //cheat被抢用
-              puts("no cheat commend");
-              return 0;
-              break;
+              if(playerNum==2){
+                      cheatBuff=cheating;//cheat 命令启动//Jack->cheatingOther=1;
+                     puts("Cheat commend is working now~");
+                     return 1;
+              }//playerNum==1 自然下落
+       default:puts("no cheat commend");//cheat被抢用 或 单人模式无cheat
        } 
-       return 0;//无用                   
+       return 0;                   
+}
+bool gameplay::endOfGame(){
+    puts("___________		Game Over!		___________");
+    switch(G.checkState()){
+      	case victory :if(infinitGameModel) puts("~~~~~That's the end.Claps for you.~~~~~~");
+                     puts("~~~~~Congratulations to you!~~~~~");break;
+       case fail:    puts("-----Sorry about that,you are failed-----");break;
+       default:break;
+       }
+       return 0;
+}
+
+void gameplay:: endOfGame(const player &p1,const player &p2){
+	puts("___________		Game Over!		___________");
+       player::winner(p1,p2);
+}
+
+bool gameplay::infinitModle(){
+       puts("~~~~~Congratulations!You get a Victory~~~~~");	
+	infinitGameModel=player::continuePlay();
+	if(infinitGameModel) return  G.infinitGame();//return 1
+	else return 0;
+}
+
+bool gameplay::playing(){
+       if(playerNum==2){
+              switch (G.checkState()){
+                     fail:return 0;
+                     default:return 1;
+              }
+       }//single player
+	switch (G.checkState()){
+		case victory:return infinitModle();// single player can choose infinity game in this step;and this will change the stopping
+		//非无限模式自然下落到end of game
+              case fail:return 0;
+	       default:return 1;
+	}
 }

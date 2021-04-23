@@ -15,15 +15,13 @@ public:
        virtual ~GameBox();
        void firHit();
        statement checkState();
-       void endOfGame();
-       void endOfGame(const player& p1,const player& p2);
        bool oneMove(const int& dir,int *sor);
        void winNum(const int& num);
-       bool playing(const player&p1);
-       bool vicOfGame(const player& p1);
        void initial(int edgeSize,int winNum);
        bool onlyDir(int *dir);
        bool tryMove(const int&dir);
+       bool infinit;
+       bool infinitGame();
 private:
        int WIDTH;
        int LENGTH;
@@ -32,7 +30,6 @@ private:
        int numOfWinning;
        int table[50];
        int cotable[50];
-       bool infintGame;
        void addNumber();
        void allDir(const int& dir,bool *f,int*table);
        int nextPos(const int& pos,const int& dir,int*table);

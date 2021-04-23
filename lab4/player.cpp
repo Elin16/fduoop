@@ -51,8 +51,9 @@ player::~player(){
 void player::printSores(){
      cout<<name<<"'s sores now is "<<sores<<"\n\n";
 }
-void player::addSore(int sore){
+player* player::addSore(int sore){
        sores+=sore;
+       return this;
 }
 bool player::continuePlay(){
        puts("You have succeeded get a victiory.");
@@ -70,4 +71,9 @@ bool player::continuePlay(){
 }
 void player::getBeingCheated(){
        beingCheated=1;
+}
+void winner(const player &p1,const player &p2){
+       if(p1.sores>p2.sores) printf("%s wins!",p1.name);
+	else  if(p1.sores<p2.sores) printf("%s wins!",p2.name);
+	else  puts("-----This is an even game.-----");
 }

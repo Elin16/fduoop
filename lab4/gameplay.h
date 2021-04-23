@@ -41,11 +41,18 @@ class gameplay{
               bool  commend(player *Jack);
               inline void singleplayer();
               inline void doubleplayer();
-              bool playCheat(const int&dir);
+              void playCheat(const int&dir);
               bool operMove(player *Jack);
               bool setCheat();
+              bool playing();
+              bool vicOfGame();
+              bool infinitModle();
+              bool endOfGame();
+              void endOfGame(const player &p1,const player &p2);
               GameBox G; 
               int  playerNum,winNum,edgeSize;
               Direction_int_string Direction_map;
+              int infinitGameModel;
+
 };
 #endif

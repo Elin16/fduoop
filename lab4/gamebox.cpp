@@ -8,7 +8,7 @@ GameBox::~GameBox(){
 }
 void GameBox::initial(int edgeSize,int winNum){ //winning =2048 default why can not be working ?
 	totalFulled=0;
-	infintGame=0;
+	infinit=0;
 	srand((unsigned)time(NULL));
 	numOfWinning=winNum;
 	WIDTH=LENGTH=edgeSize;
@@ -34,7 +34,7 @@ void GameBox:: addNumber(){
 }
  
 statement GameBox::checkState(){
-	if(!infintGame){
+	if(!infinit){
 		for(int i=0;i<TOTAL;++i) if(table[i]==numOfWinning) return victory;
 	} 
 	if(totalFulled<TOTAL) return play;
@@ -191,54 +191,10 @@ bool GameBox:: oneMove(const int& dir,int *sor){
 	printTable();
 	return f;
 }
-void GameBox::endOfGame(){
-    puts("___________		Game Over!		___________");
-    switch(checkState()){
-      	case victory : puts("~~~~~Congratulations to you!~~~~~");break;
-       case fail: 
-		if(!infintGame)puts("-----Sorry about that,you are failed-----");
-		else puts("~~~~~That's the end.Claps for you.~~~~~~");
-		break;
-        	default:break;
-   	}
-}
 
-void GameBox:: endOfGame(const player &p1,const player &p2){
-	puts("___________		Game Over!		___________");
-	switch(checkState()){
-        	case victory :
-        	case fail:
-		  	if(p1.sores>p2.sores) printf("%s wins!",p1.name);
-			else
-			if(p1.sores<p2.sores) printf("%s wins!",p2.name);
-			else
-			puts("-----This is an even game.-----");
-	 		break;
-       		default:break;
-    	}	
-}
-
-
-bool GameBox::vicOfGame(const player& p1){
-	puts("~~~~~Congratulations!You get a Victory~~~~~");	
-	infintGame=player::continuePlay();
-	if(infintGame){ //a bug ?
-		puts("Game continue!");
-		printTable();
-		return 1;
-	}else{
-		endOfGame();
-		return 0;
-	} 
-}
-
-bool GameBox::playing(const player &p1){
-	switch (checkState()){
-		case victory:
-                     return vicOfGame(p1);// single player can choose infinity game in this step;and this will change the stopping
-		case fail:
-                     endOfGame();
-              	     return 0;
-	       default:return 1;
-	}
+bool GameBox:: infinitGame(){
+	infinit=1;
+	puts("Game continue!");
+	printTable();
+	return 1;
 }

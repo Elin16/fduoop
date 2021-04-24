@@ -31,11 +31,7 @@ class gameplay{
               cheatstate cheatBuff;
               gameplay();
               virtual ~gameplay();
-              void welcome(const char*nameOfGame);
-              void winNumModel(int argc,char *args[]);
-              bool tableSize(int argc,char *args[]);
-              void playerModel();
-              bool setTableSize();
+              void beforeGame(int argc,char *args[]);
               void playGame();
        private:
               bool  commend(player *Jack);
@@ -53,6 +49,11 @@ class gameplay{
               int  playerNum,winNum,edgeSize;
               Direction_int_string Direction_map;
               int infinitGameModel;
-
+              player* playerList;
+              void welcome(const char*nameOfGame);
+              void winNumModel(int argc,char *args[]);
+              bool tableSize(int argc,char *args[]);
+              void playerModel();
+              bool setTableSize();
 };
 #endif

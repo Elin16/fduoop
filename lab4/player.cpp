@@ -21,8 +21,7 @@ bool player::myMove(int *dir){
               *dir=it->first;return 1;//本次操作执行了移动
        }
        puts("error input");
-       return 0;//本次操作没有执行移动
-       
+       return 0;//本次操作没有执行移动   
 }
 void player::setName(){
        printf("please enter the name of player:");

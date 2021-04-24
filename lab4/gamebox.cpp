@@ -25,7 +25,7 @@ void GameBox::firHit(){
     printTable();
 }
 
-void GameBox:: addNumber(){
+inline void GameBox:: addNumber(){
 	int t=rand()%TOTAL;
 	while(table[t]) t=rand()%TOTAL;
 	table[t]=2;
@@ -48,7 +48,7 @@ statement GameBox::checkState(){
 	return fail;
 }
 
-void GameBox::drawTheLine(){
+inline void GameBox::drawTheLine(){
     for(int i=0;i<WIDTH;++i)printf("+-----");
     printf("+\n");
 }
@@ -96,12 +96,11 @@ int GameBox:: nextValue(const int& pos,const int& dir,int*table){
 void GameBox::allDir(const int & dir,bool*f,int*table){
 	int fdir,i;
 	if(dir==1||dir==2) fdir=1,i=0;else fdir=-1,i=TOTAL-1;
-	while(0<=i&&i<TOTAL){
+	for(i;0<=i&&i<TOTAL;i+=fdir){
 		if(table[i]==0){
 			table[i]=nextValue(i,dir,table);
 			if(table[i]) *f=1;
 		}
-		i+=fdir;
 	}
 } 
 int GameBox::nextPos(const int& pos,const int& dir,int*table){
@@ -125,7 +124,7 @@ int GameBox::nextPos(const int& pos,const int& dir,int*table){
 int GameBox:: colliationDir(const int& dir,bool *f,int*table){
 	int sor=0,i,fdir;
 	if(dir==1||dir==2) fdir=1,i=0;else fdir=-1,i=TOTAL-1;
-	while(0<=i&&i<TOTAL){
+	for(i;0<=i&&i<TOTAL;i+=fdir){
 		if(table[i]){
 			int p=nextPos(i,dir,table);
 			if(p>=0&&table[i]==table[p]){
@@ -136,21 +135,19 @@ int GameBox:: colliationDir(const int& dir,bool *f,int*table){
 				*f=1;
 			}
 		}
-		i+=fdir;
 	}
 	return sor;
 }
 void GameBox:: tryColliationDir(const int& dir,bool *f,int*table){
 	bool fdir;int i;
 	if(dir==1||dir==2) fdir=1,i=0;else fdir=-1,i=TOTAL-1;
-	while(0<=i&&i<TOTAL){
+	for(i;0<=i&&i<TOTAL;i+=fdir){
 		if(table[i]){
 			int p=nextPos(i,dir,table);
 			if(p>=0&&table[i]==table[p]){
 				*f=1;return ;
 			}
 		}
-		i+=fdir;
 	}
 }
 

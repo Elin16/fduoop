@@ -13,97 +13,7 @@ gameplay::gameplay(){
 gameplay:: ~gameplay(){
 
 }
-inline void gameplay::winNumModel(int argc,char*args[]){
-       for(int i=0;i<argc;++i){
-              if(strcmp(args[i],TEST_MODLE)==0){
-                     winNum=TEST_WIN_NUM;break;//64
-              }
-              if(strcmp(args[i],TEST_MODLE_8)==0){
-                     winNum=8;break;
-              }
-       }
-}
-inline bool gameplay::tableSize(int argc,char *args[]){
-       for(int i=0;i<argc;++i){
-              if(strcmp(args[i],TABLE_MODLE)==0&&i+1<argc){
-                     edgeSize=atoi(args[i+1]);
-                     if(1<edgeSize&&edgeSize<6) return 1;
-              }
-       }
-       return 0;
-}
 
-inline void gameplay::welcome(const char*nameOfGame){
-	printf("____________Welcome to %s____________\n",nameOfGame);
-}
-inline void gameplay::playerModel(){
-       puts("Please choose the player modle of game:");
-       puts("Single player: enter s ");
-       puts("Double player: enter d ");
-       printf("Make your choice:");
-       string com;
-       while(1){
-              cin>>com;
-              if(com==SINGLE){
-                     playerNum=1;return ;
-              }else if(com==DOUBLE){
-                     playerNum=2;return ;
-              }else{
-                     puts("error input");
-                     printf("please choose again:");
-              }
-       }
-}
-inline void gameplay::playGame(){
-       G.initial(edgeSize,winNum);
-       if(playerNum==1) singleplayer();
-       else doubleplayer();
-}
-bool gameplay::setTableSize(){
-       puts("The table size is illegaled.");
-       puts("please set the table size(choose among 2*2,3*3,4*4,5*5)");
-       puts("enter the length of the table edge(2/3/4/5):");
-       scanf("%d",&edgeSize);fflush(stdin);
-       if(1<edgeSize&&edgeSize<6){
-              return 1;
-       }else return 0;
-}
-
-int main(int argc,char *args[]){
-       gameplay contr;
-       contr.welcome("2048");
-       contr.winNumModel(argc,args);
-       if(!contr.tableSize(argc,args)){// 一定需要用户设定吗
-              while(!contr.setTableSize()){}     
-       }
-       contr.playerModel();
-       contr.playGame();
-       return 0;
-}
-
-inline void gameplay::doubleplayer(){
-       player Jack,Mark;//Jack.setName();Mark.setName();
-       player *oper[2]={&Jack,&Mark};// shuzu
-       bool round=0;
-       G.firHit();//初始局面
-       while(playing()){
-              round=!round;
-              if(oper[round]->cheatingOther)oper[!round]->getBeingCheated();
-              oper[round]->turn();
-              if(commend(oper[round])==0){
-                     round=!round;
-                     continue;
-              }  
-       }
-       endOfGame(*oper[0],*oper[1]);
-}
-
-inline void gameplay::singleplayer(){
-       player Jack;
-       G.firHit();//初始局面
-       while(playing()) commend(&Jack);
-       endOfGame();
-}
 
 bool gameplay::operMove(player *Jack){
        int sore=0,dir=0;bool f=0;
@@ -146,7 +56,7 @@ bool gameplay::setCheat(){
               }//playerNum==1 自然下落
        default:puts("no cheat commend");//cheat被抢用 或 单人模式无cheat
        } 
-       return 0;                   
+       return 0;                
 }
 bool gameplay::endOfGame(){
     puts("___________		Game Over!		___________");
@@ -184,4 +94,92 @@ bool gameplay::playing(){
               case fail:return 0;
 	       default:return 1;
 	}
+}
+inline void gameplay::winNumModel(int argc,char*args[]){
+       for(int i=0;i<argc;++i){
+              if(strcmp(args[i],TEST_MODLE)==0){
+                     winNum=TEST_WIN_NUM;break;//64
+              }
+              if(strcmp(args[i],TEST_MODLE_8)==0){
+                     winNum=8;break;
+              }
+       }
+}
+inline bool gameplay::tableSize(int argc,char *args[]){
+       for(int i=0;i<argc;++i){
+              if(strcmp(args[i],TABLE_MODLE)==0&&i+1<argc){
+                     edgeSize=atoi(args[i+1]);
+                     if(1<edgeSize&&edgeSize<6) return 1;
+              }
+       }
+       return 0;
+}
+
+inline void gameplay::welcome(const char*nameOfGame){
+	printf("____________Welcome to %s____________\n",nameOfGame);
+}
+inline void gameplay::playerModel(){
+       puts("Please choose the player modle of game:");
+       puts("Single player: enter s ");
+       puts("Double player: enter d ");
+       printf("Make your choice:");
+       string com;
+       while(1){
+              cin>>com;
+              if(com==SINGLE){
+                     playerNum=1;return ;
+              }else if(com==DOUBLE){
+                     playerNum=2;return ;
+              }else{
+                     puts("error input");
+                     printf("please choose again:");
+              }
+       }
+}
+
+inline void gameplay::doubleplayer(){
+       player Jack,Mark;//Jack.setName();Mark.setName();
+       player *oper[2]={&Jack,&Mark};// shuzu
+       bool round=0;
+       G.firHit();//初始局面
+       while(playing()){
+              round=!round;
+              if(oper[round]->cheatingOther)oper[!round]->getBeingCheated();
+              oper[round]->turn();
+              if(commend(oper[round])==0){
+                     round=!round;
+                     continue;
+              }  
+       }
+       endOfGame(*oper[0],*oper[1]);
+}
+
+inline void gameplay::singleplayer(){
+       player Jack;
+       G.firHit();//初始局面
+       while(playing()) commend(&Jack);
+       endOfGame();
+}
+
+inline void gameplay::playGame(){
+       G.initial(edgeSize,winNum);
+       if(playerNum==1) singleplayer();
+       else doubleplayer();
+}
+bool gameplay::setTableSize(){
+       puts("The table size is illegaled.");
+       puts("please set the table size(choose among 2*2,3*3,4*4,5*5)");
+       puts("enter the length of the table edge(2/3/4/5):");
+       scanf("%d",&edgeSize);fflush(stdin);
+       if(1<edgeSize&&edgeSize<6){
+              return 1;
+       }else return 0;
+}
+void gameplay::beforeGame(int argc,char *args[]){
+       welcome("2048");
+       winNumModel(argc,args);
+       if(!tableSize(argc,args)){// 一定需要用户设定吗
+              while(!setTableSize()){}     
+       }
+       playerModel();
 }

@@ -158,7 +158,7 @@ inline void GameControl::singlePlayer(){
        endOfGame();
 }
 
-inline void GameControl::playGame(){
+void GameControl::playGame(){
        gbox.initial(edgeSize,winNum);
        if(playerNum==1) singlePlayer();
        else doublePlayer();

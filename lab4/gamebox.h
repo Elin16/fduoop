@@ -7,14 +7,14 @@
 #include<ctime>
 typedef enum {
  	victory,fail,play
-}statement; 
+}Statement; 
 
 class GameBox{
 public:
        GameBox();
        virtual ~GameBox();
        void firstHit();
-       statement checkState();
+       Statement checkState();
        bool oneMove(const int& dir,int *sor);
        void setNumOfWinning(const int& numOfWinning);
        void initial(int edgeSize,int numOfWinning);

@@ -13,8 +13,7 @@ using namespace std;
 typedef std::map<int,string> Direction_int_string;
 typedef std::pair<int,string> Pair_int_string;
 typedef  Direction_int_string ::iterator Dir_iterator;
-class player
-{
+class Player{
 private:
        string com;
        bool cheatingOthers;
@@ -27,15 +26,15 @@ public:
        static bool continuePlay();
        void setCheatingOthers(bool cheatingOthers);
        bool getCheatingOthers();
-       player* addSore(int sore);
+       Player* addSore(int sore);
        void printSores();
        bool dirCommand(int *dir);
        void printTurn();
-       player();
-       ~player();
-       player(char* playerName);
+       Player();
+       ~Player();
+       Player(char* playerName);
        static string cheatWords;
-       static void winner(const player &p1,const player &p2);
+       static void winner(const Player &p1,const Player &p2);
        int getSores ()const;
        const char* getName()const;   
 };

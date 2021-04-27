@@ -1,10 +1,10 @@
 ## hyl2048
 #### Elin Eason
 ### 两级客户程序员
-#### main方法和gameplay方法都可以视为客户程序员
-- hyl2048中，共有三个类：gamebox，player，gameplay。gamebox的实例**G**为游戏中的2048地图,关键成员变量是table[]，储存当前游戏进度，关键成员函数是moveDir()、checkState()。player的实例为游戏玩家，有name、sore两个成员变量，关键成员函数是dirCommand()。gameplay的实例为contr，相当于游戏中的“庄家”，关联起gamebox和player两个类。关键成员函数是command(player&Jack)。
+#### main方法和GameControl方法都可以视为客户程序员
+- hyl2048中，共有三个类：gamebox，player，GameControl。gamebox的实例**G**为游戏中的2048地图,关键成员变量是table[]，储存当前游戏进度，关键成员函数是moveDir()、checkState()。player的实例为游戏玩家，有name、sore两个成员变量，关键成员函数是dirCommand()。GameControl的实例为contr，相当于游戏中的“庄家”，关联起gamebox和player两个类。关键成员函数是command(player&Jack)。
     
-- 在本程序中，gameplay可视为gamebox和player两个类的客户程序员。
+- 在本程序中，GameControl可视为gamebox和player两个类的客户程序员。
   00）contr调用gamebox中的checkstate函数，得到游戏状态：playing/victory/fail
   + 游戏进行中playing：
   0）contr调用player类的成员函数获得**玩家指令**：
@@ -28,25 +28,25 @@
 
 ### advantage
 #### 设计优点
-- 封装性：主程序中仅仅使用到gameplay类的对象，其他类的内部成员和方法对用户实现了隐藏。若要修改方法实现，也不影响客户程序员的使用。这使类更加易于维护。
+- 封装性：主程序中仅仅使用到GameControl类的对象，其他类的内部成员和方法对用户实现了隐藏。若要修改方法实现，也不影响客户程序员的使用。这使类更加易于维护。
 ```c++
 int main(int argc,char *args[]){
-       gameplay contr;
+       GameControl contr;
        contr.beforeGame(argc,args);
        contr.playGame();
        return 0;
 }
 ```
-- 内聚性：每一个类仅描述一个单一的实体，如gamebox负责游戏的地图内容及其更新；player负责操作和计分。不把本应分属于不同对象的功能杂糅在一个笼统的状态类中，仅通过gameplay类在它们之间传递消息。接口简单明了，使代码易于理解、重用。（此处应有示意图）
+- 内聚性：每一个类仅描述一个单一的实体，如gamebox负责游戏的地图内容及其更新；player负责操作和计分。不把本应分属于不同对象的功能杂糅在一个笼统的状态类中，仅通过GameControl类在它们之间传递消息。接口简单明了，使代码易于理解、重用。（此处应有示意图）
 
 - 一致性：变量和方法的命名采用了一致的风格，主要使用驼峰命名法。用完整有意义的英语单词表示了程序中的变量和函数，使得它们的作用看上去容易明白，代码清晰易读。
 
 ```c++
-class gameplay{
+class GameControl{
        public:
               cheatstate cheatBuff;
-              gameplay();
-              virtual ~gameplay();
+              GameControl();
+              virtual ~GameControl();
               void beforeGame(int argc,char *args[]);
               void playGame();
        private:
@@ -76,37 +76,6 @@ class gameplay{
 #### 使用优点
 - 良好的用户交互:在游戏过程中给予玩家充足的操作提示。不仅改善了玩家体验，还减少了非法输入导致程序出错的可能。
 - 实现了单人玩家无限游戏的模式：当gamebox中出现第一个2048时，游戏会提示玩家选择是否继续游戏。若继续，则进入无限游戏模式，游戏将会进行到没有合法的着法为止。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

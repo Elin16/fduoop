@@ -26,30 +26,30 @@ typedef enum {
 typedef std::map<int,string> Direction_int_string;
 typedef std::pair<int,string> Pair_int_string;
 typedef  Direction_int_string ::iterator Dir_iterator;
-class gameplay{
+class GameControl{
        public:
               cheatstate cheatBuff;
-              gameplay();
-              virtual ~gameplay();
+              GameControl();
+              virtual ~GameControl();
               void beforeGame(int argc,char *args[]);
               void playGame();
        private:
-              bool  commend(player *Jack);
-              inline void singleplayer();
-              inline void doubleplayer();
+              bool  commend(Player *Jack);
+              inline void singlePlayer();
+              inline void doublePlayer();
               void playCheat(const int&dir);
-              bool operMove(player *Jack);
+              bool operMove(Player *Jack);
               bool setCheat();
               bool playing();
               bool vicOfGame();
               bool infinitModle();
               bool endOfGame();
-              void endOfGame(const player &p1,const player &p2);
-              GameBox G; 
+              void endOfGame(const Player &p1,const Player &p2);
+              GameBox gbox; 
               int  playerNum,winNum,edgeSize;
               Direction_int_string Direction_map;
               int infinitGameModel;
-              player* playerList;
+              Player* playerList;
               void welcome(const char*nameOfGame);
               void winNumModel(int argc,char *args[]);
               bool tableSize(int argc,char *args[]);

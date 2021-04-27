@@ -1,13 +1,13 @@
 #include "player.h"
-string player::cheatWords="";
-void player::printTurn(){
+string Player::cheatWords="";
+void Player::printTurn(){
        cout<<"This is "<<name<<"'s turn:";
 }
-void player::cheers(){
+void Player::cheers(){
        cout<<"Oh "<<name<<",you are successed!";
 }
-bool player::dirCommand(int *dir){
-       //turn（）不应该放在这里。只有double player 才需要提示
+bool Player::dirCommand(int *dir){
+       //turn（）不应该放在这里。只有double Player 才需要提示
        cin>>com;
        if(com=="c"){
               cin>>cheatWords;
@@ -23,11 +23,11 @@ bool player::dirCommand(int *dir){
        puts("error input");
        return 0;//本次操作没有执行移动   
 }
-void player::setName(){
-       printf("please enter the name of player:");
+void Player::setName(){
+       printf("please enter the name of Player:");
        cin>>name;
 }
-player::player(){
+Player::Player(){
        name="Hansen";
        sores=0; 
        cheatingOthers=0;
@@ -38,17 +38,17 @@ player::player(){
        setName();
 }
 
-player::~player(){
+Player::~Player(){
 }
 
-void player::printSores(){
+void Player::printSores(){
      cout<<name<<"'s sores now is "<<sores<<"\n\n";
 }
-player* player::addSore(int sore){
+Player* Player::addSore(int sore){
        sores+=sore;
        return this;
 }
-bool player::continuePlay(){
+bool Player::continuePlay(){
        puts("You have succeeded get a victiory.");
        puts("Do you want to continue the game?");
        puts("enter y for continuing");
@@ -63,21 +63,21 @@ bool player::continuePlay(){
        return 1;
 }
 
-void winner(const player &p1,const player &p2){
+void Player::winner(const Player &p1,const Player &p2){
        int sores1=p1.getSores(),sores2=p2.getSores();
        if(sores1>sores2) printf("%s wins!",p1.getName());
 	else  if(sores1<sores2) printf("%s wins!",p2.getName());
 	else  puts("-----This is an even game.-----");
 }
-void player::setCheatingOthers(bool cheatingOthers){
+void Player::setCheatingOthers(bool cheatingOthers){
        this->cheatingOthers=cheatingOthers;
 }
-bool player::getCheatingOthers(){
+bool Player::getCheatingOthers(){
        return cheatingOthers;
 }
-int player::getSores()const{
+int Player::getSores()const{
        return sores;
 }
-const char* player::getName()const{
+const char* Player::getName()const{
        return name.c_str();
 }

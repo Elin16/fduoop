@@ -37,7 +37,7 @@ inline void GameBox:: addNumber(){
 	return ;
 }
  
-statement GameBox::checkState(){
+Statement GameBox::checkState(){
 	if(!infinit){
 		for(int i=0;i<TOTAL;++i) if(table[i]==numOfWinning) return victory;
 	} 
@@ -100,7 +100,7 @@ int GameBox:: nextValue(const int& pos,const int& dir,int*table){
 void GameBox::allDir(const int & dir,bool*f,int*table){
 	int fdir,i;
 	if(dir==1||dir==2) fdir=1,i=0;else fdir=-1,i=TOTAL-1;
-	for(i;0<=i&&i<TOTAL;i+=fdir){
+	for(i=i;0<=i&&i<TOTAL;i+=fdir){
 		if(table[i]==0){
 			table[i]=nextValue(i,dir,table);
 			if(table[i]) *f=1;
@@ -128,7 +128,7 @@ int GameBox::nextPos(const int& pos,const int& dir,int*table){
 int GameBox:: colliationDir(const int& dir,bool *f,int*table){
 	int sor=0,i,fdir;
 	if(dir==1||dir==2) fdir=1,i=0;else fdir=-1,i=TOTAL-1;
-	for(i;0<=i&&i<TOTAL;i+=fdir){
+	for(i=i;0<=i&&i<TOTAL;i+=fdir){
 		if(table[i]){
 			int p=nextPos(i,dir,table);
 			if(p>=0&&table[i]==table[p]){
@@ -145,7 +145,7 @@ int GameBox:: colliationDir(const int& dir,bool *f,int*table){
 void GameBox:: tryColliationDir(const int& dir,bool *f,int*table){
 	bool fdir;int i;
 	if(dir==1||dir==2) fdir=1,i=0;else fdir=-1,i=TOTAL-1;
-	for(i;0<=i&&i<TOTAL;i+=fdir){
+	for(i=i;0<=i&&i<TOTAL;i+=fdir){
 		if(table[i]){
 			int p=nextPos(i,dir,table);
 			if(p>=0&&table[i]==table[p]){

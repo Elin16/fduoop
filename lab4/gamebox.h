@@ -13,14 +13,12 @@ class GameBox{
 public:
        GameBox();
        virtual ~GameBox();
-       void firHit();
+       void firstHit();
        statement checkState();
        bool oneMove(const int& dir,int *sor);
-       void winNum(const int& num);
-       void initial(int edgeSize,int winNum);
+       void setNumOfWinning(const int& numOfWinning);
+       void initial(int edgeSize,int numOfWinning);
        bool onlyDir(int *dir);
-       bool tryMove(const int&dir);
-       bool infinit;
        bool infinitGame();
 private:
        int WIDTH;
@@ -28,18 +26,19 @@ private:
        int TOTAL;
        int totalFulled;
        int numOfWinning;
+       bool infinit;
        int table[50];
        int cotable[50];
        void addNumber();
+       bool tryMove(const int&dir);
        void allDir(const int& dir,bool *f,int*table);
-       int nextPos(const int& pos,const int& dir,int*table);
        int colliationDir(const int& dir,bool *f,int*table);
+       int nextPos(const int& pos,const int& dir,int*table);
        int nextValue(const int& pos,const int& dir,int*table);
        bool moveDir(const int& dir,int *sor,int*table);
+       void tryColliationDir(const int& dir,bool *f,int*table);
        void drawTheLine();
        void printTable();
-       void tryColliationDir(const int& dir,bool *f,int*table);
-
 };
 
 #endif /* GAME_H_ */

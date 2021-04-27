@@ -17,25 +17,26 @@ class player
 {
 private:
        string com;
+       bool cheatingOthers;
+       string name;
+       int sores;
+       Direction_int_string Direction_map;
+public:
        void cheers();
        void setName(); 
-public:
        static bool continuePlay();
-       char *name;
-       int sores;
-       bool cheatingOther;
-       bool beingCheated;
+       void setCheatingOthers(bool cheatingOthers);
+       bool getCheatingOthers();
        player* addSore(int sore);
        void printSores();
-       bool myMove(int *dir);
-       void turn();
-       void getBeingCheated();
+       bool dirCommand(int *dir);
+       void printTurn();
        player();
        ~player();
        player(char* playerName);
        static string cheatWords;
        static void winner(const player &p1,const player &p2);
-       friend class gameplay;
-       Direction_int_string Direction_map;
+       int getSores ()const;
+       const char* getName()const;   
 };
 #endif

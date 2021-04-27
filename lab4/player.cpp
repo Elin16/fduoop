@@ -1,12 +1,12 @@
 #include "player.h"
 string player::cheatWords="";
-void player::turn(){
+void player::printTurn(){
        cout<<"This is "<<name<<"'s turn:";
 }
 void player::cheers(){
        cout<<"Oh "<<name<<",you are successed!";
 }
-bool player::myMove(int *dir){
+bool player::dirCommand(int *dir){
        //turn（）不应该放在这里。只有double player 才需要提示
        cin>>com;
        if(com=="c"){
@@ -25,16 +25,12 @@ bool player::myMove(int *dir){
 }
 void player::setName(){
        printf("please enter the name of player:");
-       cin>>com;
-       delete [] name;
-       name=new char[com.length()];
-       for(int i=0;i<com.length();++i) name[i]=com[i]; 
+       cin>>name;
 }
 player::player(){
-       name=NULL;
+       name="Hansen";
        sores=0; 
-       cheatingOther=0;
-       beingCheated=0;
+       cheatingOthers=0;
        Direction_map.insert(Pair_int_string (1,LEFT));
        Direction_map.insert(Pair_int_string (2,UP));
        Direction_map.insert(Pair_int_string (3,RIGHT));
@@ -43,8 +39,6 @@ player::player(){
 }
 
 player::~player(){
-       delete [] name;
-       name=NULL;
 }
 
 void player::printSores(){
@@ -68,11 +62,22 @@ bool player::continuePlay(){
        }
        return 1;
 }
-void player::getBeingCheated(){
-       beingCheated=1;
-}
+
 void winner(const player &p1,const player &p2){
-       if(p1.sores>p2.sores) printf("%s wins!",p1.name);
-	else  if(p1.sores<p2.sores) printf("%s wins!",p2.name);
+       int sores1=p1.getSores(),sores2=p2.getSores();
+       if(sores1>sores2) printf("%s wins!",p1.getName());
+	else  if(sores1<sores2) printf("%s wins!",p2.getName());
 	else  puts("-----This is an even game.-----");
+}
+void player::setCheatingOthers(bool cheatingOthers){
+       this->cheatingOthers=cheatingOthers;
+}
+bool player::getCheatingOthers(){
+       return cheatingOthers;
+}
+int player::getSores()const{
+       return sores;
+}
+const char* player::getName()const{
+       return name.c_str();
 }

@@ -3,23 +3,27 @@
 using namespace std; 
 
 GameBox:: GameBox(){ //winning =2048 default why can not be working ?
-}
-GameBox::~GameBox(){
-}
-void GameBox::initial(int edgeSize,int winNum){ //winning =2048 default why can not be working ?
 	totalFulled=0;
 	infinit=0;
 	srand((unsigned)time(NULL));
-	numOfWinning=winNum;
+	this->numOfWinning=2048;
+	WIDTH=LENGTH=4;
+	TOTAL=WIDTH*LENGTH;
+	for(int i=0;i<TOTAL;++i) table[i]=0;
+}
+GameBox::~GameBox(){
+}
+void GameBox::initial(int edgeSize,int numOfWinning){ //winning =2048 default why can not be working ?
+	this->numOfWinning=numOfWinning;
 	WIDTH=LENGTH=edgeSize;
 	TOTAL=WIDTH*LENGTH;
 	for(int i=0;i<TOTAL;++i) table[i]=0;
 }
-void GameBox:: winNum(const int& num){
-	numOfWinning=num;
+void GameBox:: setNumOfWinning(const int& numOfWinning){
+	this->numOfWinning=numOfWinning;
 	printf("The winning num is %d\n ",numOfWinning);
 }
-void GameBox::firHit(){
+void GameBox::firstHit(){
     addNumber();
     puts("___________		Game Start!		___________");
     printTable();

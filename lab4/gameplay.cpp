@@ -13,19 +13,17 @@ gameplay::gameplay(){
 gameplay:: ~gameplay(){
 
 }
-
-
 bool gameplay::operMove(player *Jack){
-       int sore=0,dir=0;bool f=0;
-       f=Jack->myMove(&dir);              //获得player的方向命令，
-       if(f){                             //有方向命令
-              f=G.oneMove(dir,&sore);     //按照dir方向移动，获得sore分;若可移动，f为true；方向命令有效//无效要不要打印分数？？？
+       int sore=0,dir=0;bool validDirCommand=0;
+       validDirCommand=Jack->dirCommand(&dir);              //获得player的方向命令，
+       if(validDirCommand){                             //有方向命令
+              validDirCommand=G.oneMove(dir,&sore);     //按照dir方向移动，获得sore分;若可移动，f为true；方向命令有效//无效要不要打印分数？？？
               Jack->addSore(sore)->printSores();        //player加分
        }else
        if(dir==-1){//f=0；// dir=-1，cheat命令
-              Jack->cheatingOther=setCheat();   //true:成功设置
+              Jack->setCheatingOthers(setCheat());   //true:成功设置
        }
-       return f;//执行了一次有效的移动命令
+       return validDirCommand;//执行了一次有效的移动命令
 }
 
 void gameplay::playCheat(const int &dir){
@@ -35,7 +33,7 @@ void gameplay::playCheat(const int &dir){
 
 inline bool gameplay::commend(player *Jack){
        int sore=0,dir=0;bool f=0;//用户不可以有无效操作
-       if(cheatBuff==cheating&&Jack->beingCheated){//进入 cheat 命令
+       if(cheatBuff==cheating&&!Jack->getCheatingOthers()){//进入 cheat 命令
               if(G.onlyDir(&dir)){//如果符合cheat条件
                      do{
                             playCheat(dir);
@@ -141,11 +139,10 @@ inline void gameplay::doubleplayer(){
        player Jack,Mark;//Jack.setName();Mark.setName();
        player *oper[2]={&Jack,&Mark};// shuzu
        bool round=0;
-       G.firHit();//初始局面
+       G.firstHit();//初始局面
        while(playing()){
               round=!round;
-              if(oper[round]->cheatingOther)oper[!round]->getBeingCheated();
-              oper[round]->turn();
+              oper[round]->printTurn();
               if(commend(oper[round])==0){
                      round=!round;
                      continue;
@@ -156,7 +153,7 @@ inline void gameplay::doubleplayer(){
 
 inline void gameplay::singleplayer(){
        player Jack;
-       G.firHit();//初始局面
+       G.firstHit();//初始局面
        while(playing()) commend(&Jack);
        endOfGame();
 }

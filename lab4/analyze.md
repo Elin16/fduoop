@@ -50,7 +50,7 @@ class GameControl{
               void beforeGame(int argc,char *args[]);
               void playGame();
        private:
-              bool  commend(player *Jack);
+              bool  command(player *Jack);
               inline void singleplayer();
               inline void doubleplayer();
               void playCheat(const int&dir);

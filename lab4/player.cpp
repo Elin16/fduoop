@@ -27,10 +27,10 @@ void Player::setName(){
        printf("please enter the name of Player:");
        cin>>name;
 }
-Player::Player(){
+Player::Player(int ID){
        name="Hansen";
        sores=0; 
-       cheatingOthers=0;
+       this->ID=ID;
        Direction_map.insert(Pair_int_string (1,LEFT));
        Direction_map.insert(Pair_int_string (2,UP));
        Direction_map.insert(Pair_int_string (3,RIGHT));
@@ -57,23 +57,14 @@ bool Player::continuePlay(){
        while(1){
               cin>>com;fflush(stdin);
               if(com==YES) return 1;
-              else if(com=="NO") return 0;
+              else if(com==NO) return 0;
               else puts("Error input,please try agian.");
        }
        return 1;
 }
 
-void Player::winner(const Player &p1,const Player &p2){
-       int sores1=p1.getSores(),sores2=p2.getSores();
-       if(sores1>sores2) printf("%s wins!",p1.getName());
-	else  if(sores1<sores2) printf("%s wins!",p2.getName());
-	else  puts("-----This is an even game.-----");
-}
-void Player::setCheatingOthers(bool cheatingOthers){
-       this->cheatingOthers=cheatingOthers;
-}
-bool Player::getCheatingOthers(){
-       return cheatingOthers;
+int Player::getID(){
+       return ID;
 }
 int Player::getSores()const{
        return sores;

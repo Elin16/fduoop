@@ -8,7 +8,11 @@
 typedef enum {
  	victory,fail,play
 }Statement; 
-
+const int delta[5][2]={
+       0,0,1,0,0,1,-1,0,0,-1
+};
+const int ROW=0;
+const int COL=1;
 class GameBox{
 public:
        GameBox();
@@ -37,7 +41,6 @@ private:
        int nextValue(const int& pos,const int& dir,int*table);
        bool moveDir(const int& dir,int *sor,int*table);
        void tryColliationDir(const int& dir,bool *f,int*table);
-       void drawTheLine();
        void printTable();
 };
 

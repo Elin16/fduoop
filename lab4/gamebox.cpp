@@ -1,7 +1,6 @@
 #include "gamebox.h"
 #define debug(x) cout<<#x"="<<x<<endl;
 using namespace std; 
-
 GameBox:: GameBox(){ //winning =2048 default why can not be working ?
 	totalFulled=0;
 	infinit=0;
@@ -51,48 +50,33 @@ Statement GameBox::checkState(){
 	}
 	return fail;
 }
-
-inline void GameBox::drawTheLine(){
-    for(int i=0;i<WIDTH;++i)printf("+-----");
-    printf("+\n");
-}
 void GameBox::printTable(){
-    drawTheLine();
-    for(int i=0;i<TOTAL;++i){
-        if(table[i]){
+    	for(int i=0;i<WIDTH;++i)printf("+-----");
+    	printf("+\n");
+    	for(int i=0;i<TOTAL;++i){
+        	if(table[i]){
 			if(table[i]<16)printf("|  %d  ",table[i]);
 			else if(table[i]<128) printf("|  %d ",table[i]);
 			else if(table[i]<1024) printf("| %d ",table[i]);
 			else printf("| %d",table[i]);
-		}
-        else printf("|     ");
-        if((i+1)%WIDTH==0){
-            printf("|\n");
-            drawTheLine();
-        } 
+			}
+        	else printf("|     ");
+        	if((i+1)%WIDTH==0){
+         		printf("|\n");
+            		for(int i=0;i<WIDTH;++i)printf("+-----");
+    	    		printf("+\n");
+       		 } 
     }
 }
 
 int GameBox:: nextValue(const int& pos,const int& dir,int*table){
-	int np;
-	switch (dir){
-		case 1:np=pos+1;//left
-			while(np%WIDTH!=0&&table[np]==0) np++;
-			if(np%WIDTH==0) return 0;
-			break;
-		case 2:np=pos+WIDTH;//up
-			while(np<TOTAL&&table[np]==0) np+=WIDTH;
-			if(np>=TOTAL) return 0;
-			break;
-		case 3:np=pos-1;//right
-			while(np>=0&&np%WIDTH!=(WIDTH-1)&&table[np]==0) np--;
-			if(np<0||np%WIDTH==(WIDTH-1)) return 0;
-			break;
-		case 4:np=pos-WIDTH;//down
-			while(np>=0&&table[np]==0) np-=WIDTH;
-			if(np<0) return 0;
-			break;
+	int np=pos+delta[dir][ROW]+delta[dir][COL]*WIDTH;
+	while(0<=np&&np<TOTAL){
+		if(delta[dir][ROW]&&(np/WIDTH!=pos/WIDTH)) return 0;
+		if(table[np]==0) np=np+delta[dir][ROW]+delta[dir][COL]*WIDTH;
+		else break;
 	}
+	if(np<0||np>=TOTAL) return 0;
 	int v=table[np];
 	table[np]=0;
 	return v;
@@ -108,21 +92,9 @@ void GameBox::allDir(const int & dir,bool*f,int*table){
 	}
 } 
 int GameBox::nextPos(const int& pos,const int& dir,int*table){
-	int np;
-	switch (dir){
-		case 1:np=pos+1;//left
-			if(np%WIDTH==0) np=-1;
-			break;
-		case 2:np=pos+WIDTH;//up
-			if(np>=TOTAL) np=-1;
-			break;
-		case 3:np=pos-1;//right
-			if(np%WIDTH==WIDTH-1) np=-1;
-			break;
-		case 4:np=pos-WIDTH;//down
-			if(np<0) np=-1;
-			break;
-	}
+	int np=pos+delta[dir][ROW]+delta[dir][COL]*WIDTH;
+	if(np<0||np>=TOTAL) return -1;
+	if(delta[dir][ROW]&&np/WIDTH!=pos/WIDTH) return -1;
 	return np;
 }
 int GameBox:: colliationDir(const int& dir,bool *f,int*table){
@@ -177,10 +149,7 @@ bool GameBox::onlyDir(int *dir){
 		possibleMove=tryMove(i);
 		if(possibleMove){
 			if(canMove) return 0;
-			else{
-				canMove=1;
-				*dir=i;
-			}
+			else canMove=1,*dir=i;
 		}
 	}
 	return canMove;

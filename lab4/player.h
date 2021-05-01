@@ -16,26 +16,27 @@ typedef  Direction_int_string ::iterator Dir_iterator;
 class Player{
 private:
        string com;
-       bool cheatingOthers;
        string name;
        int sores;
+       int ID;
        Direction_int_string Direction_map;
 public:
        void cheers();
        void setName(); 
        static bool continuePlay();
-       void setCheatingOthers(bool cheatingOthers);
-       bool getCheatingOthers();
+       int getID();
        Player* addSore(int sore);
        void printSores();
        bool dirCommand(int *dir);
        void printTurn();
-       Player();
+       Player(int ID);
        ~Player();
        Player(char* playerName);
        static string cheatWords;
-       static void winner(const Player &p1,const Player &p2);
        int getSores ()const;
-       const char* getName()const;   
+       const char* getName()const;  
+       string getCheatWords(){
+              return cheatWords;
+       } 
 };
 #endif

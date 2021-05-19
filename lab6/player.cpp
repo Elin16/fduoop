@@ -1,4 +1,5 @@
 #include "player.h"
+Player::Player(){sores=0;setName();}
 void Player::printTurn(){cout<<"This is "<<name<<"'s turn:";}
 void Player::cheers(){cout<<"Oh "<<name<<",you are successed!";}
 void Player::setName(){

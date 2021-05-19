@@ -28,7 +28,7 @@ void GameControl::beforeGame(int argc,char *args[]){
        welcome("2048");
        gbox.initial(input.getTableSize(argc,args),input.getWinNum(argc,args));
        if(playerNum>1) cheatBuff.validateCheatBuff();
-       cout<<playerNum<<"in base class\n";
+       //cout<<playerNum<<"in base class\n";
        for(int id=0;id<playerNum;++id){
               playerList.push_back(Player(id));
        }
@@ -39,8 +39,11 @@ void GameControl::beforeGame(int argc,char *args[]){
        SinglePlayerGameControl::~SinglePlayerGameControl(){}
        void SinglePlayerGameControl::playGame(){
               gbox.firstHit();
-              Player Jack;
-              while(playing()) command(&Jack);          
+              Player*Jack=&playerList[0];
+              while(playing()){
+                     Jack->printTurn();
+                     command(Jack);   
+              }        
        }
        bool SinglePlayerGameControl::playing(){
               switch (gbox.checkState()){
@@ -94,4 +97,30 @@ void GameControl::beforeGame(int argc,char *args[]){
        FileInOutGameControl::FileInOutGameControl(){
        }
        FileInOutGameControl::~FileInOutGameControl(){
+       }
+       void FileInOutGameControl::beforeGame(int argc,char *args[]){
+              freopen(input.getFileName(argc,args,"-i"),"r",stdin);
+              freopen(input.getFileName(argc,args,"-o"),"w",stdout);
+              //cout<<"beforgame in file inout \n";
+              int edgeSize=input.getTableSize(),*table;
+              int totalBlocks=edgeSize*edgeSize;
+              table=new int[totalBlocks];
+              for(int i=0;i<totalBlocks;++i) cin>>table[i];
+              gbox.setGameBox(edgeSize,table);
+              delete []table;
+       }
+       void FileInOutGameControl::playGame(){
+              string result=gbox.validDirection();
+              cout<<result.length();
+              if(result[0]=='a'&&result[1]=='w') swap(result[0],result[1]);
+              for(int i=0;i<result.length();++i) cout<<" "<<result[i];
+              cout<<endl;
+
+              int dir;
+              input.usrCommandOfDir(&dir);
+              gbox.moveAndPrintResult(dir);
+       }
+       void FileInOutGameControl::endOfGame(){
+              fclose(stdin);
+              fclose(stdout);
        }

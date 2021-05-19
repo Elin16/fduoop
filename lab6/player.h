@@ -8,7 +8,7 @@ private:
        string com,name;
        int sores,ID;
 public:
-       Player(){sores=0;setName();}
+       Player();
        void cheers();
        void setName(); 
        int getID();

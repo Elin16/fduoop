@@ -1,30 +1,18 @@
-#ifndef CHEAT_H
-#define CHEAT_H
-#include "player.h"
-#include "gamebox.h"
-#include<cstring>
-typedef enum {
-       nocheat,cancheat,cheating,cheated,
-}cheatstate;
-const char direction[5]={'x','a','w','s','z'};
-class Cheat{
-        private:
-              int cheaterID;
-              string cheatWords;
-        public:
-              cheatstate stateOfCheatBuff;
-              Cheat(){
+#include "cheat.h"
+        Cheat::Cheat(){
                 cheaterID=-1;
                 stateOfCheatBuff=nocheat;
               }
-              virtual ~Cheat(){};
-              void validateCheatBuff(){
+        Cheat::~Cheat(){
+                
+        }
+              void Cheat::validateCheatBuff(){
                      stateOfCheatBuff=cancheat;
               }
-              void invalidateCheatBuff(){
+              void Cheat::invalidateCheatBuff(){
                      stateOfCheatBuff=cheated;
               }
-              void setCheat(string cheatWodrds,int cheaterID){
+              void Cheat::setCheat(string cheatWodrds,int cheaterID){
                      if(stateOfCheatBuff==cancheat){
                             stateOfCheatBuff=cheating;
                             this->cheatWords=cheatWodrds;
@@ -33,12 +21,9 @@ class Cheat{
                             puts("No avalible cheatBuff!");
                      }
                 }
-              void playCheat(const int&dir){
+              void Cheat::playCheat(const int&dir){
                      cout<<cheatWords<<" 同意请按 "<<direction[dir]<<" ";
               }
-              bool canCheat(bool onlyDir,int playerID){
+              bool Cheat::canCheat(bool onlyDir,int playerID){
                      return (onlyDir==true&&stateOfCheatBuff==cheating&&playerID!=cheaterID);  
               }
-};
-#endif
-

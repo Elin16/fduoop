@@ -15,7 +15,6 @@ class GameControl{
               virtual void playGame(){};
               virtual void endOfGame(){};
               virtual bool playing(){return 0;};
-              int getPlayerNum(){return playerNum;}//bug
        protected:
               GameInOut input;
               int playerNum;
@@ -51,31 +50,8 @@ class FileInOutGameControl:public GameControl{
 public:
        FileInOutGameControl();
        ~FileInOutGameControl();
-       void beforeGame(int argc,char *args[]){
-              freopen(input.getFileName(argc,args,"-i"),"r",stdin);
-              freopen(input.getFileName(argc,args,"-o"),"w",stdout);
-              //cout<<"beforgame in file inout \n";
-              int edgeSize=input.getTableSize(),*table;
-              int totalBlocks=edgeSize*edgeSize;
-              table=new int[totalBlocks];
-              for(int i=0;i<totalBlocks;++i) cin>>table[i];
-              gbox.setGameBox(edgeSize,table);
-              delete []table;
-       }
-       void playGame(){
-              string result=gbox.validDirection();
-              cout<<result.length();
-              if(result[0]=='a'&&result[1]=='w') swap(result[0],result[1]);
-              for(int i=0;i<result.length();++i) cout<<" "<<result[i];
-              cout<<endl;
-
-              int dir;
-              input.usrCommandOfDir(&dir);
-              gbox.moveAndPrintResult(dir);
-       }
-       void endOfGame(){
-              fclose(stdin);
-              fclose(stdout);
-       }
+       void beforeGame(int argc,char *args[]);
+       void playGame();
+       void endOfGame();
 };
 #endif

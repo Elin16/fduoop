@@ -1,31 +1,11 @@
-#ifndef GAMEINOUT_H
-#define GAMEINOUT_H
-#include<iostream>
-#include<cstdio>
-#include<map>
-const char TEST_MODLE[]="-t";
-const char TABLE_MODLE[]="-s";
-const int  TEST_WIN_NUM=64;
-const int  WIN_NUM=2048;
-#define DOWN  "z"
-#define UP "w"
-#define LEFT "a"
-#define RIGHT "s"
-#define YES "y"
-#define NO "n"
-using namespace std;
-typedef std::map<int,string> DirectionIntString;
-typedef std::pair<int,string> PairIntString;
-typedef DirectionIntString ::iterator DirIterator;
-class GameInOut{
-public:
-        GameInOut(){
+#include "gameinout.h"
+GameInOut::GameInOut(){
                 DirectionMap.insert(PairIntString (1,LEFT));
                 DirectionMap.insert(PairIntString (2,UP));
                 DirectionMap.insert(PairIntString (3,RIGHT));
                 DirectionMap.insert(PairIntString (4,DOWN));
         }
-        static int getPlayerNum(){
+        int GameInOut::getPlayerNum(){
                 puts("Please choose the Player modle of game:\nSingle Player: enter 1\nDouble Player: enter 2\n");
                 printf("Make your choice:");
                 int com,validCom=0,playerNum,validInput; 
@@ -35,7 +15,7 @@ public:
                 }while(!validCom);
                 return playerNum;
         }
-        int  getWinNum(int argc,char*args[]){
+        int  GameInOut::getWinNum(int argc,char*args[]){
                 int winNum=WIN_NUM;
                 for(int i=0;i<argc;++i)
                 if(strcmp(args[i],TEST_MODLE)==0){
@@ -43,7 +23,7 @@ public:
                 }
                 return winNum;
         }
-        int getTableSize(int argc,char *args[]){
+        int GameInOut::getTableSize(int argc,char *args[]){
                 int edgeSize;
                 for(int i=0;i<argc;++i)
                 if(strcmp(args[i],TABLE_MODLE)==0&&i+1<argc){
@@ -57,12 +37,12 @@ public:
                         if(validInput&&1<edgeSize&&edgeSize<6) return edgeSize;
                 }
         }
-        int getTableSize(){
+        int GameInOut::getTableSize(){
                 int edgeSize;
                 validInput=scanf("%d",&edgeSize);fflush(stdin);
                 if(validInput&&1<edgeSize&&edgeSize<6) return edgeSize;return 4;
         }
-        bool usrCommandOfDir(int*dir){
+        bool GameInOut::usrCommandOfDir(int*dir){
                 cin>>com;
                 if(com=="c"){
                         cin>>cheatWords;
@@ -77,7 +57,7 @@ public:
                 puts("error input");
                 return 0;//本次操作没有执行移动  
         }
-        bool continuePlay(){
+        bool GameInOut::continuePlay(){
                 puts("You have succeeded get a victiory\nDo you want to continue the game?");
                 puts("enter y for continuing\nenter n for endding the game:");
                 while(1){
@@ -86,7 +66,7 @@ public:
                         else puts("Error input,please try agian.");
                 }      
         }
-        char* getFileName(int argc,char*args[],const char *command){
+        char* GameInOut::getFileName(int argc,char*args[],const char *command){
                 char *FileName=NULL;
                 for(int i=0;i<argc;++i)
                 if(strcmp(args[i],command)==0){
@@ -95,10 +75,4 @@ public:
                 return FileName;
         }
         
-        string getCheatWords(){return cheatWords;} 
-private:
-        DirectionIntString DirectionMap;
-        string com,cheatWords;
-        bool validInput;
-};
-#endif
+        string GameInOut::getCheatWords(){return cheatWords;}

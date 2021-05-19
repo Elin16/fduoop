@@ -27,10 +27,15 @@ void GameBox::firstHit(){
     puts("___________		Game Start!		___________");
     printTable();
 }
-
+int GameBox::translate(Position p){
+	cout<<"emptyp:"<<p.x<<" "<<p.y<<"\n";
+	return p.y+p.x*WIDTH;
+}
+Position GameBox::translate (int p){
+	return Position(p/WIDTH,p%WIDTH);
+}
 inline void GameBox:: addNumber(){
-	Position p=pickOneSpareBlock();
-	table[p.x+p.y*WIDTH]=2;
+	table[pickOneSpareBlock()]=2;
 	totalFulled++;
 	return ;
 }
@@ -155,7 +160,7 @@ bool GameBox::onlyDir(int *dir){
 }
 bool GameBox:: oneMove(const int& dir,int *sor){
 	bool f=moveDir(dir,sor,table);
-	if(f)addNumber();
+	if(f) addNumber();
 	else puts("Uesless operation");
 	printTable();
 	return f;
@@ -176,12 +181,36 @@ void GameBox::setGameBox(int edgeSize,int*table){
                      if(table[i]) totalFulled++;
               }
 }
+int GameBox::pickOneSpareBlock (){
+	vector<int> emptyBlocks;
+	for(int i=0;i<TOTAL;++i) 
+	if(!table[i]) emptyBlocks.push_back(i);
+	int t=rand()%emptyBlocks.size();
+	return emptyBlocks[t];
+	//Position p(emptyBlocks[t]/WIDTH,emptyBlocks[t]%WIDTH);
+	//return p;
+}
+void GameBox::printBareTable (){
+	for(int i=0;i<TOTAL;++i){
+		cout<<table[i];
+		(i+1)%WIDTH==0?cout<<"\n":cout<<" ";
+	} 
+}
 void GameBox::moveAndPrintResult(int dir){
 	//cout<<"moveAndPrintResult\n"<<dir<<"\n";
         int score;
         moveDir(dir,&score,table);
         printBareTable();
-        Position p=pickOneSpareBlock();
+        Position p=translate(pickOneSpareBlock());
         cout<<2<<"\n"<<p.x<<" "<<p.y<<"\n";
         cout<<score<<endl;
 }
+string GameBox::validDirection(){
+              string result="";
+              for(int i=1;i<=4;++i) 
+              if(tryMoveThisDirection(i)){
+                     result+=COM[i];
+              }
+              return result;
+       }
+       

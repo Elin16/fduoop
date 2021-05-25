@@ -6,19 +6,19 @@ using namespace std;
 class Player{
 private:
        string com,name;
-       int sores,ID;
+       int scores,ID;
 public:
        Player();
        void cheers();
        void setName(); 
        int getID();
-       Player* addSore(int sore);
-       void printSores();
+       Player* addScore(int score);
+       void printScores();
        void printTurn();
        Player(int ID);
        ~Player();
        Player(char* playerName); 
-       int getSores ()const;
+       int getScores ()const;
        const char* getName()const;  
 };
 #endif

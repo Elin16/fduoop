@@ -5,6 +5,8 @@
 #include<map>
 const char TEST_MODLE[]="-t";
 const char TABLE_MODLE[]="-s";
+const char BONUS_MODLE[]="-p";
+const char WRITE_LOG[]="-log";
 const int  TEST_WIN_NUM=64;
 const int  WIN_NUM=2048;
 #define DOWN  "z"
@@ -28,6 +30,8 @@ public:
         bool continuePlay();
         char* getFileName(int argc,char*args[],const char *command);
         string getCheatWords();
+        bool getBonusModel(int argc,char *args[]);
+        bool writeLog(int argc,char *args[]);
 private:
         DirectionIntString DirectionMap;
         string com,cheatWords;

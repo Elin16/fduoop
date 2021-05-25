@@ -1,5 +1,5 @@
 #include "player.h"
-Player::Player(){sores=0;setName();}
+Player::Player(){scores=0;setName();}
 void Player::printTurn(){cout<<"This is "<<name<<"'s turn:";}
 void Player::cheers(){cout<<"Oh "<<name<<",you are successed!";}
 void Player::setName(){
@@ -7,24 +7,24 @@ void Player::setName(){
        cin>>name;
 }
 Player::Player(int ID){
-       name="Hansen";sores=0; this->ID=ID;
+       name="Hansen";scores=0; this->ID=ID;
        setName();
 }
 Player::~Player(){
 }
 
-void Player::printSores(){
-     cout<<name<<"'s sores now is "<<sores<<"\n\n";
+void Player::printScores(){
+     cout<<name<<"'s scores now is "<<scores<<"\n\n";
 }
-Player* Player::addSore(int sore){
-       sores+=sore;
+Player* Player::addScore(int score){
+       scores+=score;
        return this;
 }
 int Player::getID(){
        return ID;
 }
-int Player::getSores()const{
-       return sores;
+int Player::getScores()const{
+       return scores;
 }
 const char* Player::getName()const{
        return name.c_str();

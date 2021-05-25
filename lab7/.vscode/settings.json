@@ -2,6 +2,8 @@
         "C_Cpp.dimInactiveRegions": false,
         "files.associations": {
                 "iosfwd": "cpp",
-                "cstring": "cpp"
+                "cstring": "cpp",
+                "chrono": "cpp",
+                "ios": "cpp"
         }
 }

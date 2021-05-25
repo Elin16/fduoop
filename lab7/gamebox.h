@@ -12,7 +12,7 @@ typedef enum {
 const int delta[5][2]={
        0,0,1,0,0,1,-1,0,0,-1
 };//a w s z 
-typedef struct{int sore;bool moved;
+typedef struct{int score;bool moved;
 }result;
 typedef struct P{
        P(int x,int y){this->x=x;this->y=y;}

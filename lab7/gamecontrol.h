@@ -5,6 +5,8 @@
 #include "gamebox.h"
 #include "cheat.h"
 #include "gameinout.h"
+#include "log.h"
+#include "bonus.h"
 const int BUFSIZE=50;
 using namespace std;
 class GameControl{
@@ -21,6 +23,8 @@ class GameControl{
               GameBox gbox; 
               vector<Player> playerList;
               bool command(Player* Jack);
+              Log console;
+              Bonus bonuscon;
        private:
               Cheat cheatBuff;
               bool operMove(Player* Jack);

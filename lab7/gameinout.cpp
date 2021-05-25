@@ -76,3 +76,13 @@ GameInOut::GameInOut(){
         }
         
         string GameInOut::getCheatWords(){return cheatWords;}
+        bool GameInOut::getBonusModel(int argc,char *args[]){
+                for(int i=0;i<argc;++i)
+                if(strcmp(args[i],BONUS_MODLE)==0) return true;
+                return false;
+        }
+        bool GameInOut::writeLog(int argc,char *args[]){
+                for(int i=0;i<argc;++i)
+                if(strcmp(args[i],WRITE_LOG)==0) return true;
+                return false;
+        }

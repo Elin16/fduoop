@@ -16,9 +16,10 @@ bool GameControl::operMove(Player* Jack){
        gettimeofday(&now2,NULL);
        bonus_info bonus=bonuscon.checkBonus(now2);
        bonus.print();
-       if(score)   console.log(now1,dir,score,playerNum==1?"默认玩家":Jack->getName());
+       if(score)  console.log(now1,dir,score,playerNum==1?"默认玩家":Jack->getName());
        if(bonus.getbonus) console.log(now1,bonus.delta,bonus.score,playerNum==1?"默认玩家":Jack->getName()); 
-       Jack->addScore(score+bonus.score)->printScores();        //Player加分
+       score+=bonus.score;
+       Jack->addScore(score)->printScores();        //Player加分
        return true;//执行了一次有效的移动命令
 }
 
